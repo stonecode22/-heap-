@@ -8,7 +8,7 @@ heap::heap()
 
 heap::~heap()
 {
-  delete[] array;
+  delete[] array; //deconstructor to delete the array to prevent memory leak
   length = 0;
 }
 
@@ -36,24 +36,24 @@ int heap::insert(int data)
 {
   if(length >= 100) //if length of array surpasses 100 int limit
     {
-      cout << "Out of storage!\n";
+      cout << "Out of storage!\n"; //post space warning message, do nothing
       return 0;
     }
   else //if array is not full
     {
-      array[length] = data;
-      length++;
-      int number = length-1;
-      while(number != 0 && array[number] > array[parent(number)])
+      array[length] = data; //set array[length] to the user data input
+      length++; //initially 0, increases with each element
+      int number = length-1; //number = 0 for length = 1, as array[0] is length = 1
+      while(number != 0 && array[number] > array[parent(number)]) //if array is not empty, and the array is larger than its parent...
 	{
-	  swapData(&array[number], &array[parent(number)]);
-	  number = parent(number);
+	  swapData(&array[number], &array[parent(number)]); //swap the data
+	  number = parent(number); //swap the indexes
 	}
       return 1;
     }
 }
 
-void heap::swapData(int* ele1, int *ele2)
+void heap::swapData(int* ele1, int *ele2) //swap function
 {
   int temp = *ele1;
   *ele1 = *ele2;
@@ -65,41 +65,52 @@ void heap::display()
   for(int i = 0; i < length; i++)
     {
       cout << array[i] << " ";
-    }
+      }
+  
 }
 
 void heap::remove(int data)
 {
-  increaseElement(data);
-  changeMax();
+  int index = 0;
+  int duplicate = 0;
+  while(index < length) //check all indexes in the array
+    {
+      if(array[index] == data && index < 100 && duplicate < 1) //find the index that hold the value
+	{
+	  increaseElement(index); //sets value in index to highest, swaps until it becomes array[0] (the top of the tree)
+	  changeMax(); //
+	  duplicate++; //only remove one index, not all indexes with matching "data"
+	}
+      index++;
+    }
 }
 
-void heap::increaseElement(int data)
+void heap::increaseElement(int index)
 {
-  array[data] = 1001;
-  while(data != 0 && array[data] > array[parent(data)])
+  array[index] = 1001; //make the value of array[index] the highest number in the tree (so it will be at array[0])
+  while(index != 0 && array[index] > array[parent(index)]) //while index is not 0 and array[index] > than of its parent
     {
-      swapData(&array[data], &array[parent(data)]);
-      data = parent(data);
+      swapData(&array[index], &array[parent(index)]); //swap the data and its parent's
+      index = parent(index); //swap the index
     }
 }
 
 int heap::changeMax()
 {
-  if(length == 1)
+  if(length == 1) //if only one element in array (array[0])
     {
-      length = length -1;
+      length = length -1; //decrease length to have array hold no elements
       return 1;
     }
-  else if(length <= 0)
+  else if(length <= 0) //if length is 0 or negative...
     {
-      return 0;
+      return 0; //do nothing
     }
-  else
+  else //if length is positive and > 1...
     {
-      array[0] = array[length-1];
-      length = length-1;
-      fixTree(0);
+      array[0] = array[length-1]; //the number wanting to be deleted, now array[0] moves to the end of the array (array[length-1])
+      length = length-1; //decrease the length, basically popping array[length-1] out of the array
+      fixTree(0); //orders array after deletion
     }
 }
 
@@ -108,19 +119,20 @@ void heap::fixTree(int index)
   int l = left(index);
   int r = right(index);
   int root = index;
-  
-  if(l < length && array[root] < array[l])
+
+  //for all cases, the indexes must be < length
+  if(l < length && array[root] < array[l]) //if index's left child is greater than its parent
     {
-      root = l;
+      root = l; //set the index root to its left child
     }
-  if(r < length && array[root] < array[r])
+  if(r < length && array[root] < array[r]) //if index's right child is greater than its parent
     {
-      root = r;
+      root = r; //set the index root to its right child
     }
-  if(root != index)
+  if(root != index) //if root doesn't = previous index
     {
-      swapData(&array[root], &array[index]);
-      fixTree(root);
+      swapData(&array[root], &array[index]); //swap the data
+      fixTree(root); //recursively continue fixing the tree
     }
 }
   

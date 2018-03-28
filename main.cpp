@@ -39,7 +39,7 @@ int main()
 	  valid = false;
 	}
     }while (valid == false);
-  cin.ignore();
+  //cin.ignore();
   cout << "Display:\n";
   list.display();
 
@@ -134,7 +134,7 @@ bool getConsoleData(heap* list, bool* valid)
     if(temp[i] == -1)
       {
 	terminate = true;
-	list->remove(i);
+	list->remove(-1);
       }
     i++;
   }
