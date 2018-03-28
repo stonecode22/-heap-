@@ -1,6 +1,5 @@
 #include<fstream>
 #include"heap.h"
-using namespace std;
 
 bool getFileData(heap* list, bool* valid);
 bool getConsoleData(heap* list, bool* valid);
@@ -40,16 +39,16 @@ int main()
 	  valid = false;
 	}
     }while (valid == false);
-
-  cout << "Root: " << list.getMax() << endl << "Display:\n";
+  cin.ignore();
+  cout << "Display:\n";
   list.display();
 
   while(repeat == true)
     {
       int number = 0;
-      cout << "INSERT into heap, REMOVE from heap, DISPLAY the heap, or QUIT.\n";
+      cout << "\nINSERT into heap, REMOVE from heap, DISPLAY the heap, or QUIT.\n";
       cin.getline(readChoice2, 10);
-
+      
       for(int i = 0; i < strlen(readChoice2); i++)
 	{
 	  readChoice2[i] = toupper(readChoice2[i]);
@@ -59,14 +58,16 @@ int main()
 	{
 	  cout << "Add a number into the heap: ";
 	  cin >> number;
+	  cin.ignore();
 	  list.insert(number);
-	}/*
+	}
       else if(strcmp(readChoice2, "REMOVE") == 0)
 	{
 	  cout << "Delete a number from the heap: ";
 	  cin >> number;
+	  cin.ignore();
 	  list.remove(number);
-	  }*/
+	}
       else if(strcmp(readChoice2, "DISPLAY") == 0)
 	{
 	  list.display();
@@ -125,7 +126,6 @@ bool getConsoleData(heap* list, bool* valid)
   int temp[100];
   int i = 0;
   bool terminate = false;
-  
   cout << "Enter data, separated by spaces (end using '-1'):\n";
   while(i < 100 && terminate == false)
   {
@@ -134,6 +134,7 @@ bool getConsoleData(heap* list, bool* valid)
     if(temp[i] == -1)
       {
 	terminate = true;
+	list->remove(i);
       }
     i++;
   }

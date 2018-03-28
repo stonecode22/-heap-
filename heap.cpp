@@ -62,13 +62,13 @@ void heap::swapData(int* ele1, int *ele2)
   
 void heap::display()
 {
-  for(int i = 0; i < length; i++) //prints data in array
+  for(int i = 0; i < length; i++)
     {
       cout << array[i] << " ";
     }
 }
- 
-int heap::remove(int data)
+
+void heap::remove(int data)
 {
   increaseElement(data);
   changeMax();
@@ -76,7 +76,7 @@ int heap::remove(int data)
 
 void heap::increaseElement(int data)
 {
-  array[data] = INT_MAX;
+  array[data] = 1001;
   while(data != 0 && array[data] > array[parent(data)])
     {
       swapData(&array[data], &array[parent(data)]);
@@ -119,7 +119,8 @@ void heap::fixTree(int index)
     }
   if(root != index)
     {
-      dataSwap(&array[root], &array[index]);
+      swapData(&array[root], &array[index]);
       fixTree(root);
     }
 }
+  
