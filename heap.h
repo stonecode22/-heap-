@@ -15,7 +15,7 @@ class heap
   void display();
   void increaseElement(int data);
   int changeMax();
-  void fixTree(int index);
+  void heapify(int index);
   int parent(int index);
   int right(int index);
   int left(int index);

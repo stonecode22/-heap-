@@ -59,14 +59,71 @@ void heap::swapData(int* ele1, int *ele2) //swap function
   *ele1 = *ele2;
   *ele2 = temp;
 }
-  
-void heap::display()
+
+void heap::display() //incredibly inefficient, yet simple level display
 {
   for(int i = 0; i < length; i++)
     {
-      cout << array[i] << " ";
-      }
-  
+      if(i == 0) //if index is 0
+	{
+	  cout << "1: " << array[i];
+	}
+      if(i < 3 && i > 0) //if index is within 1-2
+	{
+	  if(i == 1)
+	    {
+	      cout << "\n2: " << array[i] << " ";
+	    }
+	  else
+	  cout << array[i] << " ";
+	}
+      if(i < 7 && i > 2) //if index is within 3-6
+	{
+	  if(i == 3)
+	    {
+	      cout << "\n3: " << array[i] << " ";
+	    }
+	  else
+	  cout << array[i] << " ";
+	}
+      if(i < 15 && i > 6) //if index is within 7-14
+	{
+	  if(i == 7)
+	    {
+	      cout << "\n4: " << array[i] << " ";
+	    }
+	  else
+	  cout << array[i] << " ";
+	}
+      if(i < 31 && i > 14) //if index is within 15-30
+	{
+	  if(i == 15)
+	    {
+	      cout << "\n5: " << array[i] << " ";
+	    }
+	  else
+	  cout << array[i] << " ";
+	}
+      if(i < 63 && i > 30) //if index is within 31-62
+	{
+	  if(i == 31)
+	    {
+	      cout << "\n6: " << array[i] << " ";
+	    }
+	  else
+	  cout << array[i] << " ";
+	}
+      if(i < 100 && i > 62) //if index is within 63-100 (max)
+	{
+	  if(i == 63)
+	    {
+	      cout << "\n7: " << array[i] << " ";
+	    }
+	  else
+	  cout << array[i] << " ";
+	}
+    }
+  cout << endl;
 }
 
 void heap::remove(int data)
@@ -110,11 +167,11 @@ int heap::changeMax()
     {
       array[0] = array[length-1]; //the number wanting to be deleted, now array[0] moves to the end of the array (array[length-1])
       length = length-1; //decrease the length, basically popping array[length-1] out of the array
-      fixTree(0); //orders array after deletion
+      heapify(0); //orders array after deletion
     }
 }
 
-void heap::fixTree(int index)
+void heap::heapify(int index)
 {
   int l = left(index);
   int r = right(index);
@@ -132,7 +189,7 @@ void heap::fixTree(int index)
   if(root != index) //if root doesn't = previous index
     {
       swapData(&array[root], &array[index]); //swap the data
-      fixTree(root); //recursively continue fixing the tree
+      heapify(root); //recursively continue fixing the tree
     }
 }
   

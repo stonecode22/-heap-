@@ -39,10 +39,10 @@ int main()
 	  valid = false;
 	}
     }while (valid == false);
-  //cin.ignore();
+  cin.ignore();
   cout << "Display:\n";
   list.display();
-
+  
   while(repeat == true)
     {
       int number = 0;
